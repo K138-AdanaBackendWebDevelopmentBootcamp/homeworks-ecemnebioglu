@@ -1,9 +1,9 @@
 import java.util.Objects;
 
-public class PermanenInstructor extends Instructors {
+public class PermanentInstructor extends Instructors {
     private int fixedSalary;
 
-    public PermanenInstructor(String name, String adress, String phoneNumber, int fixedSalary) {
+    public PermanentInstructor(String name, String adress, String phoneNumber, int fixedSalary) {
         super(name, adress, phoneNumber);
         this.fixedSalary = fixedSalary;
     }
@@ -21,7 +21,7 @@ public class PermanenInstructor extends Instructors {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        PermanenInstructor that = (PermanenInstructor) o;
+        PermanentInstructor that = (PermanentInstructor) o;
         return fixedSalary == that.fixedSalary;
     }
 
