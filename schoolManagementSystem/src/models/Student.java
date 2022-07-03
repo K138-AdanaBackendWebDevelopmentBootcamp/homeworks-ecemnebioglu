@@ -1,11 +1,34 @@
+package models;
+
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+@Entity
 
 public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private LocalDate birthDate;
     private String adress;
     private String gender;
+
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            targetEntity = Student.class
+    )
+    private List <Course> courseList = new ArrayList<>();
+    public Student() {
+    }
+
+    public Student(String name, String gender) {
+        this.name = name;
+        this.gender = gender;
+    }
 
     public Student(String name, LocalDate birthDate, String adress, String gender) {
         this.name = name;
@@ -46,22 +69,35 @@ public class Student {
         this.gender = gender;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return Objects.equals(name, student.name) && Objects.equals(birthDate, student.birthDate) && Objects.equals(adress, student.adress) && Objects.equals(gender, student.gender);
+    public List<Course> getCourseList() {
+        return courseList;
+    }
+
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return name.equals(student.name);
+    }
+
+
+    @Override
     public int hashCode() {
-        return Objects.hash(name, birthDate, adress, gender);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "models.Student{" +
                 "name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", adress='" + adress + '\'' +
