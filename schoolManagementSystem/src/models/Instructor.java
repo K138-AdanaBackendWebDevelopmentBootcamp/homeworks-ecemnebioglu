@@ -11,7 +11,7 @@ public class Instructor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String adress;
+    private String address;
     private String phoneNumber;
 
     @OneToMany(mappedBy = "instructor")
@@ -24,7 +24,7 @@ public class Instructor {
 
     public Instructor(String name, String adress, String phoneNumber) {
         this.name = name;
-        this.adress = adress;
+        this.address = adress;
         this.phoneNumber = phoneNumber;
     }
 
@@ -37,11 +37,11 @@ public class Instructor {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
     public String getPhoneNumber() {
@@ -81,7 +81,7 @@ public class Instructor {
     public String toString() {
         return "Instructors{" +
                 "name='" + name + '\'' +
-                ", adress='" + adress + '\'' +
+                ", adress='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }

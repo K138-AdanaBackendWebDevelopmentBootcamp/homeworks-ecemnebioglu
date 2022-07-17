@@ -13,7 +13,7 @@ public class Student {
     private int id;
     private String name;
     private LocalDate birthDate;
-    private String adress;
+    private String address;
     private String gender;
 
     @ManyToMany(
@@ -33,7 +33,7 @@ public class Student {
     public Student(String name, LocalDate birthDate, String adress, String gender) {
         this.name = name;
         this.birthDate = birthDate;
-        this.adress = adress;
+        this.address = adress;
         this.gender = gender;
     }
 
@@ -54,11 +54,11 @@ public class Student {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
     public String getGender() {
@@ -100,7 +100,7 @@ public class Student {
         return "models.Student{" +
                 "name='" + name + '\'' +
                 ", birthDate=" + birthDate +
-                ", adress='" + adress + '\'' +
+                ", adress='" + address + '\'' +
                 ", gender='" + gender + '\'' +
                 '}';
     }

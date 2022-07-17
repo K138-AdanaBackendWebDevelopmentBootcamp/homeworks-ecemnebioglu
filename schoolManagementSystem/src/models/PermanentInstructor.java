@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 public class PermanentInstructor extends Instructor {
     private int fixedSalary;
 
-    public PermanentInstructor(String name, String adress, String phoneNumber, int fixedSalary) {
-        super(name, adress, phoneNumber);
+    public PermanentInstructor(String name, String address, String phoneNumber, int fixedSalary) {
+        super(name, address, phoneNumber);
         this.fixedSalary = fixedSalary;
     }
 
