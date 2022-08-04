@@ -8,14 +8,14 @@
           <factory-entry name="mysqlPU" value="78f2ca95-b948-4e58-85fc-0995b6cfa8ab" />
         </datasource-mapping>
         <naming-strategy-map />
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/schoolManagementSystem/src/META-INF/persistence.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/schoolManagementSystem(week1-2)/src/META-INF/persistence.xml" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/schoolManagementSystem/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/schoolManagementSystem(week1-2)/src" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
