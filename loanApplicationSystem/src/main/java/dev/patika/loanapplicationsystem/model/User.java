@@ -1,15 +1,16 @@
-package dev.patika.loanapplicationsystem.models;
+package dev.patika.loanapplicationsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "email"), @UniqueConstraint(columnNames = "id_number")})
-//for not using same email again
+//for not using same email and id number again
 
 @Data
 @NoArgsConstructor
@@ -38,9 +39,16 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_loans",
             joinColumns = @JoinColumn(name = "id_number", referencedColumnName = "id_number"),
-            inverseJoinColumns = {@JoinColumn(name = "loan_id", referencedColumnName = "id"), @JoinColumn(name = "loan_amount", referencedColumnName = "loan_amount")}
-
+            inverseJoinColumns = {@JoinColumn(name = "loan_id", referencedColumnName = "loan_id"), @JoinColumn(name = "loan_amount", referencedColumnName = "loan_amount")}
     )
-    private List<Loan> loans;
+    private Collection<Loan> loans;
 
+    public User(Long idNumber, String firstName, String lastName, String email, String mobile, double monthlyIncome) {
+        this.idNumber = idNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.mobile = mobile;
+        this.monthlyIncome = monthlyIncome;
+    }
 }

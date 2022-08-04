@@ -1,4 +1,4 @@
-package dev.patika.loanapplicationsystem.models;
+package dev.patika.loanapplicationsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +17,8 @@ public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "loan_id")
+    private Long loanId;
     @Column(name = "loan_amount")
     private double loanAmount;
 

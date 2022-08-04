@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Loan Application</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<!--header(navBar)-->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only"> Toggle navigation </span><span class="icon-bar"></span><span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">Loan Application</a>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<!--creating HTML application form-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <!--success feedback-->
+            <div th:if="${param.success}">
+                <div class="alert alert-info"> You've successfully applied !</div>
+            </div>
+
+            <h1>Loan Application Form</h1>
+            <!--  for saving user/customer  -->
+            <!--     will get user object form the userRegistrationController       -->
+            <form action="#" th:action="@{/application}" method="post" th:object="${user}">
+                <div class="form-group">
+                    <label class="control-label" for="idNumber">Id Number</label>
+                    <input id="idNumber" class="form-control" th:field="*{idNumber}" required autofocus="autofocus">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="firstName">First Name</label>
+                    <input id="firstName" class="form-control" th:field="*{firstName}" required autofocus="autofocus">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="lastName">Last Name</label>
+                    <input id="lastName" class="form-control" th:field="*{lastName}" required autofocus="autofocus">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="email">Email</label>
+                    <input id="email" class="form-control" th:field="*{email}" required autofocus="autofocus">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="mobile">Mobile</label>
+                    <input id="mobile" class="form-control" th:field="*{mobile}" required autofocus="autofocus">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="monthlyIncome">Monthly Income</label>
+                    <input id="monthlyIncome" class="form-control" th:field="*{monthlyIncome}" required autofocus="autofocus">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Apply</button>
+                    <br><br>
+                    <span>Already applied? You can review your application result in <a href="/" th:href="@{/result}">Here!</a> </span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

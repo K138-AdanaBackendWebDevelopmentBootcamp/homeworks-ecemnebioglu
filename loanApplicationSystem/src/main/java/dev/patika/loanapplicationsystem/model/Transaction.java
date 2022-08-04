@@ -1,4 +1,4 @@
-package dev.patika.loanapplicationsystem.models;
+package dev.patika.loanapplicationsystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
