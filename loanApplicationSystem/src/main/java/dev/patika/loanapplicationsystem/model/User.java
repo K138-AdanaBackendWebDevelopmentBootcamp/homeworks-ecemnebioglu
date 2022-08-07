@@ -6,20 +6,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "email"), @UniqueConstraint(columnNames = "id_number")})
-//for not using same email and id number again
+//for not using the same email and id number again
+//add exception
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    private Long id;
     @Column(name = "id_number")
     private Long idNumber;
     @Column(name = "first_name")
@@ -32,9 +32,6 @@ public class User {
     private String mobile;
     @Column(name = "monthly_income")
     private double monthlyIncome;
-
-    @OneToMany
-    private List<Transaction> transactions;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_loans",

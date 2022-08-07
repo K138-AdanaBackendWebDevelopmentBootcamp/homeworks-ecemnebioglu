@@ -5,6 +5,9 @@ import dev.patika.loanapplicationsystem.model.User;
 import dev.patika.loanapplicationsystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -15,9 +18,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserRegistrationDto registrationDto) {
+    public void save(UserRegistrationDto registrationDto) {
         User user = new User(registrationDto.getIdNumber(), registrationDto.getFirstName(), registrationDto.getLastName(), registrationDto.getEmail(), registrationDto.getMobile(), registrationDto.getMonthlyIncome());
-
-        return userRepository.save(user);
+        userRepository.save(user);
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> findByIdNumber(Long idNumber) {
+        return userRepository.findByIdNumber(idNumber);
+    }
+
+    @Override
+    public User createUser(User newUser) {
+        return userRepository.save(newUser);
+    }
+    //add exception(for not letting id)
+
+
+    @Override
+    public User updateUser(Long idNumber, User newUser) {
+        Optional<User> user = userRepository.findByIdNumber(idNumber);
+        if (user.isPresent()){
+            User foundUser = user.get();
+            foundUser.setIdNumber(idNumber);
+            foundUser.setFirstName(newUser.getFirstName());
+            foundUser.setLastName(newUser.getLastName());
+            foundUser.setEmail(newUser.getEmail());
+            foundUser.setMobile(newUser.getMobile());
+            foundUser.setMonthlyIncome(newUser.getMonthlyIncome());
+            userRepository.save(foundUser);
+            return foundUser;
+        }
+        return null;
+        //for now will return null
+    }
+
+    @Override
+    public void deleteByIdNumber(Long idNumber) {
+        userRepository.deleteByIdNumber(idNumber);
+    }
+
+
 }
