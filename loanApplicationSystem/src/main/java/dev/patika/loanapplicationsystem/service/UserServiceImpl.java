@@ -59,8 +59,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByIdNumber(Long idNumber) {
-        userRepository.deleteByIdNumber(idNumber);
+    public String deleteByIdNumber(Long idNumber) {
+        Optional<User> foundUser= userRepository.findByIdNumber(idNumber);
+        if(foundUser.isPresent()){
+            userRepository.deleteByIdNumber(idNumber);
+            return "User deleted!";
+        }else return "User not found";
     }
 
 

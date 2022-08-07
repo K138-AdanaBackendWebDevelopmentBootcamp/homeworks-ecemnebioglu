@@ -22,5 +22,5 @@ public interface UserService   {
 
     User updateUser(Long idNumber, User newUser);
 
-    void deleteByIdNumber(Long idNumber);
+    String deleteByIdNumber(Long idNumber);
 }

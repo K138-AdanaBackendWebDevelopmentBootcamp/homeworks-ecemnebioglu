@@ -1,12 +1,11 @@
 package dev.patika.loanapplicationsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "loan")
@@ -26,7 +25,10 @@ public class Loan {
     private String loanStatus;
 
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_number", referencedColumnName = "id_number")
+    @JsonIgnore
+    private User user;
 
 
 }

@@ -1,5 +1,7 @@
 package dev.patika.loanapplicationsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,13 +34,6 @@ public class User {
     private String mobile;
     @Column(name = "monthly_income")
     private double monthlyIncome;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "users_loans",
-            joinColumns = @JoinColumn(name = "id_number", referencedColumnName = "id_number"),
-            inverseJoinColumns = {@JoinColumn(name = "loan_id", referencedColumnName = "loan_id"), @JoinColumn(name = "loan_amount", referencedColumnName = "loan_amount")}
-    )
-    private Collection<Loan> loans;
 
     public User(Long idNumber, String firstName, String lastName, String email, String mobile, double monthlyIncome) {
         this.idNumber = idNumber;
