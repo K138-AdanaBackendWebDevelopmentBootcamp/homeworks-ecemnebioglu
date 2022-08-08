@@ -2,10 +2,14 @@ package dev.patika.loanapplicationsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
 @Table(name = "loan")
@@ -13,6 +17,9 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Log4j2
+@Builder
+@Transactional
 public class Loan {
 
     @Id
@@ -25,8 +32,8 @@ public class Loan {
     private String loanStatus;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_number", referencedColumnName = "id_number")
+    @OneToOne
+    @JoinColumn(name = "idnumber", referencedColumnName = "id_number")
     @JsonIgnore
     private User user;
 
