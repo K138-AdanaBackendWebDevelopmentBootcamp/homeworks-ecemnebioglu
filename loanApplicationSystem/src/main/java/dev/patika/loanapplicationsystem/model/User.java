@@ -1,13 +1,14 @@
 package dev.patika.loanapplicationsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import lombok.extern.log4j.Log4j2;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.transaction.Transactional;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "email"), @UniqueConstraint(columnNames = "id_number")})
@@ -17,6 +18,11 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Transactional
+@Log4j2
+@Builder
+@Getter
+@Setter
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
     @Id
@@ -35,6 +41,11 @@ public class User {
     @Column(name = "monthly_income")
     private double monthlyIncome;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn(name = "id_number")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private Loan loan;
+
     public User(Long idNumber, String firstName, String lastName, String email, String mobile, double monthlyIncome) {
         this.idNumber = idNumber;
         this.firstName = firstName;
@@ -42,5 +53,10 @@ public class User {
         this.email = email;
         this.mobile = mobile;
         this.monthlyIncome = monthlyIncome;
+    }
+
+    public User(Long idNumber, double monthlyIncome) {
+        this.idNumber = idNumber;
+        this.monthlyIncome= monthlyIncome;
     }
 }
