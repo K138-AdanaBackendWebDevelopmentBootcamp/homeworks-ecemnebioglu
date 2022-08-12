@@ -2,6 +2,8 @@ package dev.patika.loanapplicationsystem.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.annotations.OnDelete;
@@ -23,28 +25,37 @@ import javax.transaction.Transactional;
 @Builder
 @Getter
 @Setter
+@ApiModel(value = "User object")
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "User object id")
     private Long id;
     @Column(name = "id_number")
+    @ApiModelProperty(value = "User object ID number")
     private Long idNumber;
     @Column(name = "first_name")
+    @ApiModelProperty(value = "User object first name")
     private String firstName;
     @Column(name = "last_name")
+    @ApiModelProperty(value = "User object last name")
     private String lastName;
     @Column(name = "email")
+    @ApiModelProperty(value = "User object email")
     private String email;
     @Column(name = "mobile")
+    @ApiModelProperty(value = "User object mobile")
     private String mobile;
     @Column(name = "monthly_income")
+    @ApiModelProperty(value = "User object monthly income")
     private double monthlyIncome;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "id_number")
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "loan_id")
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Loan loan;
+    @JsonIgnore
+        private Loan loan;
 
     public User(Long idNumber, String firstName, String lastName, String email, String mobile, double monthlyIncome) {
         this.idNumber = idNumber;

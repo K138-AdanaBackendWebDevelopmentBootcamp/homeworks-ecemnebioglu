@@ -10,17 +10,14 @@ import java.util.Optional;
 @Service
 public interface UserService   {
 
-
-
     void save(UserRegistrationDto registrationDto);
 
-    List<User> getAllUsers();
+    List<User> getAllUsers(Optional<Long> id);
 
-    Optional<User> findByIdNumber(Long idNumber);
+    User findByIdNumber(Long idNumber);
 
     User createUser(User newUser);
 
-    User updateUser(Long idNumber, User newUser);
-
+    String updateUser(Long idNumber, User newUser);
     String deleteByIdNumber(Long idNumber);
 }
