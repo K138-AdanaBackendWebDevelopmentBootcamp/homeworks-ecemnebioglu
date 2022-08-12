@@ -14,6 +14,8 @@ and after calculating loan according to following rules system will be save it t
 ___
 1. It'll be assumed that this system has Credit Score Service which will return following credit scores according to the last digit of ID number.
    1. If ID number ends with an odd number will be assumed inaccurate.
+   2. <br>
+
       ![img_2.png](img_2.png)
 2. If credit score is below 500 points, the loan application result will be Rejected.
 <br>
