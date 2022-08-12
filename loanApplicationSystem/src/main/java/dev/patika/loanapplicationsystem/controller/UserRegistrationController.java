@@ -1,23 +1,23 @@
 package dev.patika.loanapplicationsystem.controller;
 
+import dev.patika.loanapplicationsystem.dto.LoanDto;
 import dev.patika.loanapplicationsystem.dto.UserRegistrationDto;
+import dev.patika.loanapplicationsystem.service.LoanService;
 import dev.patika.loanapplicationsystem.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/application")
 
 public class UserRegistrationController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final LoanService loanService;
 
-    public UserRegistrationController(UserService userService) {
+    public UserRegistrationController(UserService userService, LoanService loanService) {
         this.userService = userService;
+        this.loanService = loanService;
     }
 
     @GetMapping
@@ -25,6 +25,8 @@ public class UserRegistrationController {
         //for showing loan application form
         return "application";
     }
+
+
 
     @PostMapping
     public String loanApplication(@ModelAttribute("user")UserRegistrationDto registrationDto){
@@ -38,5 +40,19 @@ public class UserRegistrationController {
         //for getting empty object in application form
         return new UserRegistrationDto();
     }
+
+    @GetMapping("/result")
+    public String showResult(@ModelAttribute("loan") LoanDto loanDto){
+        loanService.findByIdNumber(loanDto.getLoanId());
+        return "result";
+    }
+
+//    @PostMapping
+//    public String loanResult(@ModelAttribute("user")UserRegistrationDto registrationDto){
+//        //for taking application from user
+//        userService.findByIdNumber(idNumber);
+//
+//        return "redirect:/loan?success";
+//    }
 
 }
