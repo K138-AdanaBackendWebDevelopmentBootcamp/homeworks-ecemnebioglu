@@ -1,6 +1,8 @@
 package dev.patika.loanapplicationsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -22,20 +23,32 @@ import javax.transaction.Transactional;
 @Log4j2
 @Builder
 @Transactional
+@ApiModel(value = "Loan object")
 public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loan_id")
+    @ApiModelProperty(value = "Loan object id")
     private Long loanId;
+
     @Column(name = "loan_amount")
+    @ApiModelProperty(value = "Loan object loan amount")
     private double loanAmount;
+
     @Column(name = "loan_status")
+    @ApiModelProperty(value = "Loan object status")
     private String loanStatus;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "id_number")
+    @Column(name = "user_id_number")
+    @ApiModelProperty(value = "User object ID number")
+    private Long userIdNumber;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
+
+
 }

@@ -4,22 +4,18 @@ import dev.patika.loanapplicationsystem.model.Loan;
 import dev.patika.loanapplicationsystem.model.User;
 import dev.patika.loanapplicationsystem.repository.LoanRepository;
 import dev.patika.loanapplicationsystem.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class LoanServiceImpl implements LoanService {
-    private final LoanRepository loanRepository;
-    private final UserRepository userRepository;
-
-
-    public LoanServiceImpl(LoanRepository loanRepository, UserRepository userRepository) {
-        this.loanRepository = loanRepository;
-        this.userRepository = userRepository;
-    }
-
-    public Loan findByIdNumber(Long idNumber) {
-        return loanRepository.findByIdNumber(idNumber);
-    }
+   @Autowired
+    private  LoanRepository loanRepository;
+   @Autowired
+    private UserRepository userRepository;
 
     public int calculateCreditScore(Long idNumber) {
 
@@ -53,46 +49,54 @@ public class LoanServiceImpl implements LoanService {
     }
 
 
-    public Loan calculateLoanAmount(Long idNumber) {
+    public double calculateLoanAmount(Long idNumber, int creditScore, Loan loan) {
         int loanLimitMultiplier = 4;
-        int creditScore = calculateCreditScore(idNumber);
-        Loan loan =loanRepository.findByIdNumber(idNumber) ;
         User user = userRepository.findByIdNumber(idNumber);
 
-        if (creditScore == 0) {
-            loan.setLoanAmount(-1);
-        } else if (creditScore < 500) {
-            loan.setLoanAmount(0);
-        } else if (creditScore < 1000) {
-            if (user.getMonthlyIncome() < 5000) {
-                loan.setLoanAmount(10.000);
+            if (creditScore == 0) {
+                loan.setLoanAmount(-1);
+            } else if (creditScore < 500) {
+                loan.setLoanAmount(0);
+            } else if (creditScore < 1000) {
+                if (user.getMonthlyIncome() < 5000) {
+                    loan.setLoanAmount(10.000);
+                } else {
+                    loan.setLoanAmount(20.000);
+                }
             } else {
-                loan.setLoanAmount(20.000);
+                loan.setLoanAmount(user.getMonthlyIncome() * loanLimitMultiplier);
             }
-        } else {
-            loan.setLoanAmount(user.getMonthlyIncome() * loanLimitMultiplier);
-        }
-        loanRepository.save(loan);
-        user.setLoan(loan);
-        return loan;
+        return loan.getLoanAmount();
     }
 
-    public Loan checkLoanStatus(Loan loan) {
-        double loanAmount = loan.getLoanAmount();
+    public void checkLoanStatus(double loanAmount, Loan loan) {
         if (loanAmount == -1) {
-            loan.setLoanStatus("-1");
+            loan.setLoanStatus("Inaccurate ID number!");
         } else if (loanAmount == 0) {
             loan.setLoanStatus("Rejected");
         } else {
             loan.setLoanStatus("Approved");
         }
-        loanRepository.save(loan);
-        return loan;
     }
 
     @Override
     public Loan loanAmountAndStatusCalculation(Long idNumber) {
-        return checkLoanStatus(calculateLoanAmount(idNumber));
+        if (userRepository.findByIdNumber(idNumber).getLoan()==null){
+            Loan loan = new Loan();
+            loan.setLoanAmount(calculateLoanAmount(idNumber, calculateCreditScore(idNumber), loan));
+            checkLoanStatus(loan.getLoanAmount(), loan);
+            userRepository.findByIdNumber(idNumber).setLoan(loan);
+            loan.setUser(userRepository.findByIdNumber(idNumber));
+            loan.setUserIdNumber(idNumber);
+            return loan;
+        }else return userRepository.findByIdNumber(idNumber).getLoan();
+
+    }
+
+    @Override
+    public Loan findByIdNumber(Long idNumber){
+        return loanRepository.findByUserIdNumber(idNumber);
+
     }
 
 }
